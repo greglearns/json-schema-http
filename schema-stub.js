@@ -58,17 +58,17 @@ function stub(schema, server, fns) {
 
     if (fnForSlug) {
       if (generated[ generatedKey ] === 'real' ) {
-        console.log('reusing REAL route for', '   METHOD:', linkSet.method, 'ROUTE:', route, 'PATH:', path, 'SLUG:', uniqueSlug)
+        console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
       } else {
-        console.log('generating REAL route for', 'METHOD:', linkSet.method, 'ROUTE:', route, 'PATH:', path, 'SLUG:', uniqueSlug)
+        console.log(JSON.stringify({ route_create: { type: 'real', method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
         server[linkSet.method.toLowerCase()](route, validateRequest, fnForSlug.bind(null, { validateRequest: isRequestValid }))
         generated[ generatedKey ] = 'real'
       }
     } else {
       if (generated[ generatedKey ] === 'real' ) {
-        console.log('reusing REAL route for', 'METHOD:', linkSet.method, 'ROUTE:', route, 'PATH:', path, 'SLUG:', uniqueSlug)
+        console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
       } else {
-        console.log('generating stub route for', 'METHOD:', linkSet.method, 'ROUTE:', route, 'PATH:', path, 'SLUG:', uniqueSlug)
+        console.log(JSON.stringify({ route_generate: { type: 'STUB', method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
         server[linkSet.method.toLowerCase()](route, validateRequest, handler)
       }
     }
