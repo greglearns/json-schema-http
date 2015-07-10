@@ -48,7 +48,7 @@ function stub(schema, server, fns) {
     var path = linkSet.schema_path
 
     // var route = linkSet.href.replace(/{[^}]+}/g, function() { return '[^/]+?' })
-    var route = linkSet.href.replace(/{([^}]+?)}/, function(_,paramName) { return ':'+paramName  })
+    var route = linkSet.href.replace(/{([^}]+?)}/g, function(_,paramName) { return ':'+paramName  })
     var isRequestValid = Validator({ schema: linkSet.schema || {}, basePath: path }).validate
     var isResponseValid = Validator({ schema: linkSet.targetSchema || {}, basePath: path }).validate
 
