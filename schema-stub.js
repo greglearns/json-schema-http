@@ -47,7 +47,8 @@ function stub(schema, server, fns) {
   function generateServerRouteStub(fns, linkSet) {
     var path = linkSet.schema_path
 
-    var route = linkSet.href.replace(/{[^}]+}/g, function() { return '[^/]+?' })
+    // var route = linkSet.href.replace(/{[^}]+}/g, function() { return '[^/]+?' })
+    var route = linkSet.href.replace(/{([^}]+?)}/, function(_,paramName) { return ':'+paramName  })
     var isRequestValid = Validator({ schema: linkSet.schema || {}, basePath: path }).validate
     var isResponseValid = Validator({ schema: linkSet.targetSchema || {}, basePath: path }).validate
 
@@ -61,6 +62,7 @@ function stub(schema, server, fns) {
         console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
       } else {
         console.log(JSON.stringify({ route_create: { type: 'real', method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
+        console.log('route is', linkSet.method.toLowerCase(), route);
         server[linkSet.method.toLowerCase()](route, validateRequest, fnForSlug.bind(null, { validateRequest: isRequestValid }))
         generated[ generatedKey ] = 'real'
       }
@@ -68,7 +70,7 @@ function stub(schema, server, fns) {
       if (generated[ generatedKey ] === 'real' ) {
         console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
       } else {
-        console.log(JSON.stringify({ route_generate: { type: 'STUB', method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
+        console.log(JSON.stringify({ route_stub: { type: 'STUB', method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
         server[linkSet.method.toLowerCase()](route, validateRequest, handler)
       }
     }
