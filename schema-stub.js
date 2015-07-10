@@ -54,24 +54,25 @@ function stub(schema, server, fns) {
 
     var uniqueSlug = linkSet.unique_slug
     var fnForSlug = functionForSlug(uniqueSlug)
+    var method = linkSet.method.toLowerCase()
 
-    var generatedKey = [ linkSet.method, route ].join(' ')
+    var generatedKey = [ method, route ].join(' ')
 
     if (fnForSlug) {
       if (generated[ generatedKey ] === 'real' ) {
-        console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
+        console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: method, route: route, path: path, slug: uniqueSlug } }))
       } else {
-        console.log(JSON.stringify({ route_create: { type: 'real', method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
-        console.log('route is', linkSet.method.toLowerCase(), route);
-        server[linkSet.method.toLowerCase()](route, validateRequest, fnForSlug.bind(null, { validateRequest: isRequestValid }))
+        console.log(JSON.stringify({ route_create: { type: 'real', method: method, route: route, path: path, slug: uniqueSlug } }))
+        console.log('route is', method, route);
+        server[method](route, validateRequest, fnForSlug.bind(null, { validateRequest: isRequestValid }))
         generated[ generatedKey ] = 'real'
       }
     } else {
       if (generated[ generatedKey ] === 'real' ) {
-        console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
+        console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: method, route: route, path: path, slug: uniqueSlug } }))
       } else {
-        console.log(JSON.stringify({ route_stub: { type: 'STUB', method: linkSet.method, route: route, path: path, slug: uniqueSlug } }))
-        server[linkSet.method.toLowerCase()](route, validateRequest, handler)
+        console.log(JSON.stringify({ route_stub: { type: 'STUB', method: method, route: route, path: path, slug: uniqueSlug } }))
+        server[method](route, validateRequest, handler)
       }
     }
 
