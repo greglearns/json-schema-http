@@ -59,11 +59,13 @@ function stub(schema, server, fns) {
     var generatedKey = [ method, route ].join(' ')
 
     if (fnForSlug) {
+
+      if (fnForSlug.length !== 4) { throw new Error('fn callback must accept 4 arguments: opts, req, res, next: '+uniqueSlug) }
+
       if (generated[ generatedKey ] === 'real' ) {
         console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: method, route: route, path: path, slug: uniqueSlug } }))
       } else {
         console.log(JSON.stringify({ route_create: { type: 'real', method: method, route: route, path: path, slug: uniqueSlug } }))
-        console.log('route is', method, route);
         server[method](route, validateRequest, fnForSlug.bind(null, { validateRequest: isRequestValid }))
         generated[ generatedKey ] = 'real'
       }
