@@ -61,6 +61,7 @@ function stub(schema, server, fns) {
     if (fnForSlug) {
 
       if (fnForSlug.length !== 4) { throw new Error('fn callback must accept 4 arguments: opts, req, res, next: '+uniqueSlug) }
+      // if (fnForSlug.length <= 3) { throw new Error('fn callback must accept as the last 4 arguments: opts, req, res, next: '+uniqueSlug) }
 
       if (generated[ generatedKey ] === 'real' ) {
         console.log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: method, route: route, path: path, slug: uniqueSlug } }))
@@ -100,11 +101,12 @@ function stub(schema, server, fns) {
     }
 
     function validateRequest(req, res, next) {
-      console.log('validate Request', req.params, linkSet.schema)
+      // console.log('validate Request', req.params, linkSet.schema)
       try {
-      var report = isRequestValid(req.params)
-      if (report.valid) { next(); return }
+        var report = isRequestValid(req.params)
+        if (report.valid) { next(); return }
       } catch(e) {
+        console.log(JSON.stringify({ error: 'schema-stub', error: JSON.stringify(e) }));
         res.status(400)
         res.json({
           status: 400,
