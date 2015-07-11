@@ -106,14 +106,15 @@ function stub(schema, server, fns) {
         var report = isRequestValid(req.params)
         if (report.valid) { next(); return }
       } catch(e) {
-        console.log(JSON.stringify({ error: 'schema-stub', error: JSON.stringify(e) }));
-        res.status(400)
-        res.json({
-          status: 400,
-          message: "error processing json",
-          error: e
-        })
-        return
+        throw e
+        // { error: 'schema-stub', message: e.message, stack: e.stack }
+        // res.status(400)
+        // res.json({
+        //   status: 400,
+        //   message: "error processing json",
+        //   error: e
+        // })
+        // return
       }
 
       res.status(400)
