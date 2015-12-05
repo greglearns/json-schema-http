@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:greglearns/json-schema-http.git"
+    "url": "git@github.com:greglearns/json-schema-http.git"
   },
   "author": "greglearns",
-  "license": "proprietary",
+  "license": "MIT",
   "bugs": {
-    "url": "https://bitbucket.org/greglearns/json-schema-http.git"
+    "url": "https://github.com/greglearns/json-schema-http."
   },
-  "homepage": "https://bitbucket.org/greglearns/json-schema-http.git",
+  "homepage": "https://github.com/greglearns/json-schema-http.git",
   "dependencies": {
     "JSONPath": "^0.10.0",
     "greglearns-json-schema-validator": "^1.0.0",
