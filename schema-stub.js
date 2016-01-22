@@ -146,11 +146,38 @@ function stub(schema, server, fns) {
 
       var contentType = linkSet.mediaType || 'application/json'
       res.header('Content-Type', contentType);
-      console.log('-------------')
-      console.log('this is the result', typeof result)
-      console.log(result)
-      console.log('-------------')
-      res.send(result)
+
+      if (contentType === 'text/event-stream') {
+
+        res.header('Cache-Control', 'no-cache')
+        res.header('Connection', 'keep-alive')
+
+        sendOneMessage(clone(result), parseInt(req.params.delay) || 1000, (() => res.end() ))
+
+        function sendOneMessage(arr, timeout, cb) {
+          if (!arr.length) { return cb() }
+          res.write( toSSE( arr.shift() ))
+          setTimeout(() => sendOneMessage(arr, timeout, cb, timeout), timeout)
+        }
+
+        function toSSE(x) {
+          var result = []
+          if (x.comment) { result.push(':'+x.comment) }
+          if (x.retry) { result.push('retry:'+ x.retry) }
+          if (x.id) { result.push('id:'+x.id) }
+          if (x.event) { result.push('event:'+ x.event) }
+          if (x.data) { result.push('data:'+JSON.stringify(x.data)) }
+          return result.join('\n') + '\n\n'
+        }
+
+      } else {
+        console.log('-------------')
+        console.log('Content-Type', contentType)
+        console.log('this is the result', typeof result)
+        console.log(result)
+        console.log('-------------')
+        res.send(result)
+      }
       next()
     }
   }
