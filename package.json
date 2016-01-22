@@ -1,6 +1,6 @@
 {
   "name": "json-schema-http",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Stub HTTP routes based on a JSON Hyper Schema",
   "main": "index.js",
   "scripts": {
