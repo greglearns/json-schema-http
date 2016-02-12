@@ -1,5 +1,7 @@
 var Validator = require('./validate')
 var JSONPath = require('JSONPath').eval
+var variableRewrite = require('./policy/rewrite')
+
   // other options than JSONPath:
   // https://github.com/bojand/json-schema-deref-sync
   // mpath
@@ -142,6 +144,12 @@ function stub(schema, server, fns) {
 
     function handler(req, res, next) {
       var result = JSONPath(linkSet, '$.targetSchema.example')[0]
+      if (result) {
+       try{
+         result = JSON.parse(variableRewrite(req.params, JSON.stringify(result)))
+       } catch(e) {}
+      }
+
       if (!validateResponse(result, res)) { next(); return }
 
       var contentType = linkSet.mediaType || 'application/json'
@@ -179,6 +187,7 @@ function stub(schema, server, fns) {
         res.send(result)
       }
       next()
+
     }
   }
 
