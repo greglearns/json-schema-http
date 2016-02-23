@@ -125,8 +125,8 @@ function stub(schema, server, fns) {
         message: "bad syntax in body",
         error: report.errors
       }
-      if (report.missing_fields) { result = report.missing_fields }
-      if (report.disallowed_fields) { result = report.disallowed_fields }
+      if (report.missing_fields) { result.missing_fields = report.missing_fields }
+      if (report.blocked_fields) { result.blocked_fields = report.blocked_fields }
 
       res.status(result.status || 400)
       res.json(result)

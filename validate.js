@@ -48,12 +48,12 @@ function handleMissingRequired(error, report) {
 }
 
 function handleExtraFields(error, report) {
-  report.disallowed_fields || (report.disallowed_fields={})
+  report.blocked_fields || (report.blocked_fields={})
   var match = error.message && error.message.match(/(\[[^\]]+\])/)
   if (match) {
     var fields = tryJson(match[0]) || [ 'unknown_field' ]
     fields.forEach(function(field) {
-      report.disallowed_fields[field] = (report.disallowed_fields[field] || 0)+1
+      report.blocked_fields[field] = (report.blocked_fields[field] || 0)+1
     })
   }
 
