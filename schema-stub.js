@@ -119,12 +119,17 @@ function stub(schema, server, fns) {
         // return
       }
 
-      res.status(400)
-      res.json({
+
+      var result = {
         status: 400,
         message: "bad syntax in body",
         error: report.errors
-      })
+      }
+      if (report.missing_fields) { result = report.missing_fields }
+      if (report.disallowed_fields) { result = report.disallowed_fields }
+
+      res.status(result.status || 400)
+      res.json(result)
     }
 
     function validateResponse(data, res) {
