@@ -8,7 +8,9 @@ module.exports = function(opts) {
   var listOfLinks = schemaStub.listOfLinks().map(function(linkSet) { return {
     href: linkSet.href,
     method: linkSet.method,
-    rel: linkSet.rel
+    rel: linkSet.rel,
+    title: linkSet.title,
+    description: linkSet.description
   }})
 
   return {

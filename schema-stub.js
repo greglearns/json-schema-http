@@ -133,7 +133,7 @@ function stub(schema, server, fns) {
     }
 
     function validateResponse(data, res) {
-      console.log('validate response', data, linkSet.targetSchema || {})
+      // console.log('validate response', data, linkSet.targetSchema || {})
       var report = isResponseValid(data)
       if (report.valid) { return true }
 
@@ -184,11 +184,11 @@ function stub(schema, server, fns) {
         }
 
       } else {
-        console.log('-------------')
-        console.log('Content-Type', contentType)
-        console.log('this is the result', typeof result)
-        console.log(result)
-        console.log('-------------')
+        // console.log('-------------')
+        // console.log('Content-Type', contentType)
+        // console.log('this is the result', typeof result)
+        // console.log(result)
+        // console.log('-------------')
         res.send(result)
       }
       next()
