@@ -54,7 +54,7 @@ function stub(schema, server, fns) {
     var isRequestValid = Validator({ schema: linkSet.schema || {}, basePath: path }).validate
     var isResponseValid = Validator({ schema: linkSet.targetSchema || {}, basePath: path }).validate
 
-    var uniqueSlug = linkSet.unique_slug | linkSet.slug
+    var uniqueSlug = linkSet.unique_slug || linkSet.slug
     var fnForSlug = functionForSlug(uniqueSlug)
     var method = linkSet.method.toLowerCase()
 
