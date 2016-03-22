@@ -106,7 +106,7 @@ function stub(schema, server, fns) {
       // console.log('validate Request', req.params, linkSet.schema)
       if (linkSet.encType && linkSet.encType !== req.contentType()) {
         res.status(415)
-        res.json({ status: 415, message: "Bad content-type header. Expected: "+linkSet.encType })
+        res.json({ status: 415, message: "Bad Content-Type header. Expected: "+linkSet.encType })
         return
       }
 
