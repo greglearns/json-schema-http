@@ -4,7 +4,7 @@ var SchemaStub = require('./schema-stub')
 // TODO: ensure slugs are unique
 
 module.exports = function(opts) {
-  var schemaStub = SchemaStub({ schema: opts.schema || {} })
+  var schemaStub = SchemaStub({ schema: opts.schema || {}, log: opts.log || console.log })
   var listOfLinks = schemaStub.listOfLinks().map(function(linkSet) { return {
     href: linkSet.href,
     method: linkSet.method,
