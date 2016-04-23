@@ -67,17 +67,17 @@ function stub(schema, log, server, fns) {
       // if (fnForSlug.length <= 3) { throw new Error('fn callback must accept as the last 4 arguments: opts, req, res, next: '+uniqueSlug) }
 
       if (generated[ generatedKey ] === 'real' ) {
-        log && log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: method, route: route, path: path, slug: uniqueSlug } }))
+        log && log.info(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: method, route: route, path: path, slug: uniqueSlug } }))
       } else {
-        log && log(JSON.stringify({ route_create: { type: 'real', method: method, route: route, path: path, slug: uniqueSlug } }))
+        log && log.info(JSON.stringify({ route_create: { type: 'real', method: method, route: route, path: path, slug: uniqueSlug } }))
         server[method](route, validateRequest, fnForSlug.bind(null, { validateRequest: isRequestValid }))
         generated[ generatedKey ] = 'real'
       }
     } else {
       if (generated[ generatedKey ] === 'real' ) {
-        log && log(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: method, route: route, path: path, slug: uniqueSlug } }))
+        log && log.info(JSON.stringify({ route_reuse: { type: 'real', reuse: true, method: method, route: route, path: path, slug: uniqueSlug } }))
       } else {
-        log && log(JSON.stringify({ route_stub: { type: 'STUB', method: method, route: route, path: path, slug: uniqueSlug } }))
+        log && log.info(JSON.stringify({ route_stub: { type: 'STUB', method: method, route: route, path: path, slug: uniqueSlug } }))
         server[method](route, validateRequest, handler)
       }
     }
